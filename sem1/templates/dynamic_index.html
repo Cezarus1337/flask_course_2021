@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Project</title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+
+{% if image_url %}
+<div>
+    <img src="{{ image_url }}" style="width: 500px">
+</div>
+{% endif %}
+
+<div>
+    <p>{{ title_small }}</p>
+    <ol>
+        {% for item in list_items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ol>
+</div>
+</body>
+</html>
