@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block profile %}
+<div style="border-style: solid; border-color: blue">
+    <h1>Profile page</h1>
+    <p>Hello i am Ivan, email: ivanmarkov1997@gmail.com</p>
+    <img src="{{ url_for ('profile.static', filename='images/mercedes.jpg') }}" width="200px" height="200px">
+</div>
+{% endblock %}
