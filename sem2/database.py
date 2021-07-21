@@ -1,5 +1,5 @@
 from pymysql import connect
-from pymysql.err import ProgrammingError
+from pymysql.err import OperationalError
 
 
 class DBConnection:
@@ -14,12 +14,14 @@ class DBConnection:
             self.connection = connect(**self.config)
             self.cursor = self.connection.cursor()
             return self.cursor
-        except ProgrammingError:
+        except OperationalError:
             return None
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is not None:
+        if self.connection is not None and self.cursor is not None:
             self.connection.commit()
             self.connection.close()
             self.cursor.close()
+        if exc_val is not None:
+            print(exc_val.args[0])
         return True

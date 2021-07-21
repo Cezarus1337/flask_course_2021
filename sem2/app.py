@@ -16,13 +16,24 @@ db_config = {
 app = Flask(__name__)
 
 
+@app.route('/db-version')
+def get_db_version():
+    version = 'Unknown'
+    with DBConnection(db_config) as cursor:
+        if cursor is None:
+            raise ValueError('No connection')
+        cursor.execute('select version()')
+        version = cursor.fetchone()[0]
+    return f'DB Version: {version}'
+
+
 @app.route('/')
 @app.route('/<param>')
-def index(param=None):
+def get_param(param=None):
     if param is not None:
         return f'Params: {param}'
     else:
-        return 'Hello World'
+        return 'No params'
 
 
 @app.route('/users/<int:user_id>')
