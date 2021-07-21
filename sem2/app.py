@@ -1,8 +1,17 @@
-import os
+import random
 
 from flask import Flask
 from flask import request, render_template, redirect
 
+from database import DBConnection
+
+
+db_config = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'root',
+    'password': 'root'
+}
 
 app = Flask(__name__)
 
@@ -36,11 +45,11 @@ def user_page(user_id: int):
     return f"User profile:\nname: {user['name']}\nemail: {user['email']}"
 
 
-@app.route('/sum')  # Доп. задание - калькулятор на args
+@app.route('/random')
 def page_with_args():
-    x = float(request.args.get('x', 0))
-    y = float(request.args.get('y', 0))
-    return f'Result: {x + y}'
+    lower = int(request.args.get('from', 0))
+    upper = int(request.args.get('to', 1))
+    return str(random.randint(lower, upper))
 
 
 @app.route('/user-form')
@@ -71,23 +80,17 @@ def user_input():
             return 'Wrong input'
 
 
-@app.route('/upload-file', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'GET':
-        return render_template('input_file.html')
-    elif request.method == 'POST':
-        file = request.files.get('file')
-        if file.filename:
-            file.save(os.path.join('static/images/', file.filename))
-            return render_template('image_page.html', url=os.path.join('/static/images/', file.filename))
-        else:
-            return render_template('input_file.html')
-
-
-# curl -X POST http://localhost:5000/api/user -d "{\"name\": \"Ivan\"}" -H "Content-Type: application/json"
-@app.route('/api/user', methods=['POST'])
-def api_user_create():
-    return ''.join([request.get_data(as_text=True), str(request.get_json())])
+# @app.route('/upload-file', methods=['GET', 'POST'])
+# def upload_file():
+#     if request.method == 'GET':
+#         return render_template('input_file.html')
+#     elif request.method == 'POST':
+#         file = request.files.get('file')
+#         if file.filename:
+#             file.save(os.path.join('static/images/', file.filename))
+#             return render_template('image_page.html', url=os.path.join('/static/images/', file.filename))
+#         else:
+#             return render_template('input_file.html')
 
 
 if __name__ == '__main__':
