@@ -63,21 +63,6 @@ def page_with_args():
     return str(random.randint(lower, upper))
 
 
-@app.route('/user-form')
-def user_input_page_1():
-    return render_template('input_form_redirect.html')
-
-
-@app.route('/user-form-next', methods=['POST'])
-def user_input_page_2():
-    login = request.form.get('login', '')
-    password = request.form.get('password', '')
-    if login and password:
-        return {'login': login, 'password': password}
-    else:
-        return 'Wrong input'
-
-
 @app.route('/user-form-all', methods=['GET', 'POST'])  # Доп. - получить данные пользователя и вернуть страничку с его профилем
 def user_input():
     if request.method == 'GET':
