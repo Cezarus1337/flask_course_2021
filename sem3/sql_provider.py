@@ -9,7 +9,7 @@ class SQLProvider:
 		self._scripts = {}
 
 		for file in os.listdir(file_path):
-			self._scripts[key] = Template(open(f'{file_path}/{file}').read())
+			self._scripts[file] = Template(open(f'{file_path}/{file}').read())
 
 	def get(self, name, **kwargs) -> str:
 		return self._scripts.get(name, '').substitute(**kwargs)
