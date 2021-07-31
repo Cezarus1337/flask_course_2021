@@ -33,6 +33,7 @@ def login_page():
 				token = base64.b64encode(f'{login}|{token_expire}'.encode('UTF8'))
 				session['login'] = login
 				session['token'] = token
+				session.permanent = True
 				return redirect('/')
 		if token is None:
 			return render_template('login.html', message='Invalid login or password')

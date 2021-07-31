@@ -9,8 +9,8 @@ db_config = {
 	'password': 'root',
 }
 
-app.secret_key = 'super secret key'
 app.config['db_config'] = db_config
+app.config['SECRET_KEY'] = 'super secret key'
 
 
 from blueprints.auth.routes import auth_pb
