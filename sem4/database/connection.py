@@ -29,4 +29,6 @@ class DBConnection:
         if exc_val is not None:
             print(exc_type)
             print(exc_val.args[0])
+            print(exc_val)
+            print(exc_tb)
         return True

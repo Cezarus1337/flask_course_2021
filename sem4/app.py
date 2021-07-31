@@ -9,7 +9,7 @@ db_config = {
 	'password': 'root',
 }
 
-app.config['db_config'] = db_config
+app.config['DB_CONFIG'] = db_config
 app.config['SECRET_KEY'] = 'super secret key'
 
 

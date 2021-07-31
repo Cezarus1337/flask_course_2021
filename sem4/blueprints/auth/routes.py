@@ -24,14 +24,18 @@ def login_page():
 		token = None
 		login = request.form['login']
 		password = request.form['password']
-		with DBConnection(current_app.config['db_config']) as cursor:
+		with DBConnection(current_app.config['DB_CONFIG']) as cursor:
 			sql = provider.get('user.sql', login=login, password=password)
 			cursor.execute(sql)
 			user = cursor.fetchone()
 			if user:
-				token_expire = f'{datetime.now() + timedelta(seconds=60)}'
-				token = base64.b64encode(f'{login}|{token_expire}'.encode('UTF8'))
-				session['login'] = login
+				schema = [column[0] for column in cursor.description]
+				user = dict(zip(schema, user))
+				group_login = user['group_login']
+				group_password = user['group_password']
+				expire = str(datetime.now() + timedelta(seconds=60))
+				token = f'{group_login}/{group_password}/{expire}'
+				token = base64.b64encode(token.encode('UTF8'))
 				session['token'] = token
 				session.permanent = True
 				return redirect('/')
@@ -41,7 +45,6 @@ def login_page():
 
 @auth_pb.route('/logout')
 def logout():
-	if 'login' in session and 'token' in session:
-		session.pop('login')
+	if 'token' in session:
 		session.pop('token')
 	return redirect('/login')

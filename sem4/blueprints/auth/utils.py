@@ -6,24 +6,36 @@ from datetime import datetime
 from flask import session, redirect
 
 
-def is_decoded(login, token):
-	decoded_token = base64.b64decode(token).decode('UTF8').split('|')
-	if not decoded_token:
+def parse_token(token):
+	try:
+		decoded = base64.b64decode(token).decode('UTF8').split('/')
+		token_dict = dict(zip(['group_login', 'group_password', 'expire'], decoded))
+		return token_dict
+	except Exception as e:
+		print('Could not parse user token')
+		print(e.args)
+	return None
+
+
+def is_valid_token(token_info):
+	try:
+		for value in token_info.values():
+			if value is None or value == '':
+				return False
+		expire = datetime.strptime(token_info['expire'], '%Y-%m-%d %H:%M:%S.%f')
+		if datetime.now() > expire:
+			return False
+	except Exception as e:
+		print(e)
 		return False
-	decoded_login = decoded_token[0]
-	decoded_expire = datetime.strptime(decoded_token[1], '%Y-%m-%d %H:%M:%S.%f')
-	if decoded_login == login and datetime.now() < decoded_expire:
-		return True
-	return False
+	return True
 
 
 def login_required(f):
 	@wraps(f)
 	def wrapper(*args, **kwargs):
-		if 'login' in session and 'token' in session:
-			login = session['login']
-			token = session['token']
-			if is_decoded(login, token):
-				return f(*args, **kwargs)
+		token_info = parse_token(session.get('token', None))
+		if is_valid_token(token_info):
+			return f(*args, **kwargs)
 		return redirect('/login')
 	return wrapper
