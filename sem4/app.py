@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'super secret key'
 
 
 from blueprints.auth.routes import auth_pb
-from blueprints.auth.utils import login_required
+from utils import login_required, role_required
 
 app.register_blueprint(auth_pb, url_prefix='/')
 
@@ -32,13 +32,12 @@ def profile_page():
 
 
 @app.route('/admin')
-@login_required
+@role_required('admin')
 def admin_page():
 	return 'Admin page'
 
 
 @app.route('/')
-@login_required
 def index():
 	return render_template('index.html')
 

@@ -1,8 +1,4 @@
 import os
-import base64
-
-from datetime import datetime
-from datetime import timedelta
 
 from flask import Blueprint
 from flask import session
@@ -32,12 +28,6 @@ def login_page():
 				schema = [column[0] for column in cursor.description]
 				user = dict(zip(schema, user))
 				group_name = user['group_name']
-				group_login = user['group_login']
-				group_password = user['group_password']
-				expire = str(datetime.now() + timedelta(seconds=60))
-				token = f'{group_login}/{group_password}/{expire}'
-				token = base64.b64encode(token.encode('UTF8'))
-				session['token'] = token
 				session['group'] = group_name
 				session.permanent = True
 				return redirect('/')
@@ -48,4 +38,4 @@ def login_page():
 @auth_pb.route('/logout')
 def logout():
 	session.clear()
-	return redirect('/login')
+	return redirect('/')
