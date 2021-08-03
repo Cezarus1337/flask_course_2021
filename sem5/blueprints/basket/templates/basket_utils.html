@@ -1,0 +1,19 @@
+{% macro render_item(item, show_form=False) %}
+<div style="border-style: solid; border-color: black; margin: 5px">
+    <p>
+        <span style="color: black">Название: {{ item['name'] }}</span>
+        <span style="color: red">Цена: {{ item['price'] }}</span>
+        <span>Осталось в наличии: {{ item['total'] }}</span>
+    </p>
+    <p>Описание товара: {{ item['description'] }}</p>
+    {% if show_form %}
+    <div>
+        <form action="" method="post">
+            <input type="hidden" name="item_id" value="{{ item['item_id'] }}">
+            <input type="submit" name="action" value="Add">
+            <input type="submit" name="action" value="Delete">
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endmacro %}
