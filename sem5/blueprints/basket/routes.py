@@ -25,7 +25,7 @@ def list_orders():
 		action = request.form['action']
 		item_id = request.form['item_id']
 		if action == 'Add':
-			sql = provider.get('order_list.sql', item_id=item_id)
+			sql = provider.get('order_item.sql', item_id=item_id)
 			item = make_request(current_app.config['DB_CONFIG'], sql)
 			if item:
 				item = item[0]
