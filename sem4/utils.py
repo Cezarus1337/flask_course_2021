@@ -7,7 +7,6 @@ def login_required(f):
 	@wraps(f)
 	def wrapper(*args, **kwargs):
 		group = session.get('group', None)
-		print(group)
 		if group is not None and group != '':
 			return f(*args, **kwargs)
 		return redirect('/login')
