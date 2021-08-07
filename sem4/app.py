@@ -4,14 +4,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-with open('configs/db.yaml') as f:
-	db_config = yaml.safe_load(f)
-
-with open('configs/access.yaml') as f:
-	access_config = yaml.safe_load(f)
-
-app.config['DB_CONFIG'] = db_config
-app.config['ACCESS_CONFIG'] = access_config
+app.config['DB_CONFIG'] = yaml.safe_load(open('configs/db.yaml'))
+app.config['ACCESS_CONFIG'] = yaml.safe_load(open('configs/access.yaml'))
 app.config['SECRET_KEY'] = 'super secret key'
 
 
