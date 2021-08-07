@@ -15,7 +15,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @basket_pb.route('/', methods=['GET', 'POST'])
-@AccessManager.login_required
+@AccessManager.group_required
 def list_orders():
 	if request.method == 'GET':
 		current_basket = session.get('basket', [])
@@ -37,7 +37,7 @@ def list_orders():
 
 
 @basket_pb.route('/clear')
-@AccessManager.login_required
+@AccessManager.group_required
 def clear_basket():
 	clear_user_basket()
 	return redirect('/order')

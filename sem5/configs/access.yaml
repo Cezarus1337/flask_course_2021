@@ -1,11 +1,13 @@
 typical:
   blueprints:
     - auth
+    - basket
   endpoints:
     - index
 admin:
   blueprints:
     - auth
+    - basket
   endpoints:
     - index
     - admin_page
