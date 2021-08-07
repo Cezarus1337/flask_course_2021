@@ -6,7 +6,7 @@ from flask import render_template, current_app, request, redirect
 
 from database.connection import DBConnection, make_request
 from database.sql_provider import SQLProvider
-from utils import login_required
+from utils import AccessManager
 from .utils import add_user_basket, clear_user_basket, remove_item_by_id
 
 
@@ -15,7 +15,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @basket_pb.route('/', methods=['GET', 'POST'])
-@login_required
+@AccessManager.login_required
 def list_orders():
 	if request.method == 'GET':
 		current_basket = session.get('basket', [])
@@ -37,7 +37,7 @@ def list_orders():
 
 
 @basket_pb.route('/clear')
-@login_required
+@AccessManager.login_required
 def clear_basket():
 	clear_user_basket()
 	return redirect('/order')

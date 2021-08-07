@@ -1,38 +1,40 @@
+import yaml
+
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-db_config = {
-	'host': '127.0.0.1',
-	'port': 3306,
-	'user': 'root',
-	'password': 'root',
-}
+with open('configs/db.yaml') as f:
+	db_config = yaml.safe_load(f)
+
+with open('configs/access.yaml') as f:
+	access_config = yaml.safe_load(f)
 
 app.config['DB_CONFIG'] = db_config
+app.config['ACCESS_CONFIG'] = access_config
 app.config['SECRET_KEY'] = 'super secret key'
 
 
 from blueprints.auth.routes import auth_pb
-from utils import login_required, role_required
+from utils import AccessManager
 
 app.register_blueprint(auth_pb, url_prefix='/')
 
 
-@app.route('/order')
-@login_required
+@app.route('/order/')
+@AccessManager.login_required
 def order_page():
 	return 'Order page'
 
 
 @app.route('/user')
-@login_required
+@AccessManager.login_required
 def profile_page():
 	return 'Profile page'
 
 
 @app.route('/admin')
-@role_required('admin')
+@AccessManager.group_required
 def admin_page():
 	return 'Admin page'
 
