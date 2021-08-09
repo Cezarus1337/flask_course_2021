@@ -10,7 +10,12 @@ app.wsgi_app = AuthorizationMiddleware(app.wsgi_app, auth_urls=['/login'])
 class UserAPI(MethodView):
 
 	def get(self, user_id):
-		return str(user_id)
+		return {
+			'id': user_id,
+			'name': 'Ivan',
+			'login': 'thiendio',
+			'email': 'thiendio@example.com'
+		}
 
 	def post(self):
 		return 'kek'
