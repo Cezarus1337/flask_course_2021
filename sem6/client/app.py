@@ -1,14 +1,17 @@
+import json
 import requests
 
 
 def get_token():
-	response = requests.get('http://127.0.0.1:5001/login')
+	headers = {'Content-Type': 'application/json'}
+	data = json.dumps({'username': 'thiendio', 'password': 'thiendio'})
+	response = requests.post('http://127.0.0.1:5001/login', headers=headers, data=data)
 	return response.text
 
 
 def make_request(token):
 	headers = {'Authorization': token}
-	response = requests.get('http://127.0.0.1:5001/profile', headers=headers)
+	response = requests.get('http://127.0.0.1:5001/profile/123', headers=headers)
 	return response.text
 
 
