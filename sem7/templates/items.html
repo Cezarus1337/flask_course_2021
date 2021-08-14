@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask project</title>
+</head>
+<body>
+<h1>Все товары</h1>
+<ol>
+    {% for item in items %}
+    <li>Название: {{ item['name'] }} | Цена: {{ item['price'] }} | Осталось: {{ item['total'] }}</li>
+    {% endfor %}
+</ol>
+</body>
+</html>
