@@ -1,0 +1,11 @@
+typical:
+  blueprints:
+    - auth
+  endpoints:
+    - index
+admin:
+  blueprints:
+    - auth
+  endpoints:
+    - index
+    - admin_page
