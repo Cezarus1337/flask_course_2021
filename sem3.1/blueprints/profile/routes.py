@@ -4,7 +4,7 @@ from flask import Blueprint, request
 from flask import render_template, current_app
 
 from sql_provider import SQLProvider
-from database import DBConnection
+from database import DBConnection, make_request
 
 
 profile_bp = Blueprint('profile', __name__, template_folder='templates', static_folder='static')
@@ -22,19 +22,8 @@ def profile_info():
 		return render_template('profile-find-user.html')
 	else:
 		user_name = request.form['user_name']
-		user = None
-		with DBConnection(current_app.config['db_config']) as cursor:
-			_sql = provider.get('user.sql', user_name=user_name)
-			cursor.execute(_sql)
-			description = [column[0] for column in cursor.description]
-			row = cursor.fetchone()
-			if row:
-				user = dict(zip(description, row))
-		if user is None:
+		_sql = provider.get('user.sql', user_name=user_name)
+		user = make_request(current_app.config['db_config'], _sql)
+		if not user:
 			return 'Not found'
-		return """
-		<p>Name: {0}</p>
-		<p>Login: {1}</p>
-		<p>Password: {2}</p>
-		""".format(user['name'], user['login'], user['password'])
-
+		return user[0]

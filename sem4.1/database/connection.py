@@ -32,3 +32,13 @@ class DBConnection:
             print(exc_val)
             print(exc_tb)
         return True
+
+
+def make_request(db_config, sql):
+    items = []
+    with DBConnection(db_config) as cursor:
+        cursor.execute(sql)
+        schema = [column[0] for column in cursor.description]
+        for item in cursor.fetchall():
+            items.append(dict(zip(schema, item)))
+    return items

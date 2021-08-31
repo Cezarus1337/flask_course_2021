@@ -4,7 +4,7 @@ from flask import Blueprint
 from flask import session
 from flask import render_template, request, current_app, redirect
 
-from database.connection import DBConnection
+from database.connection import DBConnection, make_request
 from database.sql_provider import SQLProvider
 
 
@@ -17,22 +17,17 @@ def login_page():
 	if request.method == 'GET':
 		return render_template('login.html')
 	else:
-		token = None
 		login = request.form['login']
 		password = request.form['password']
-		with DBConnection(current_app.config['DB_CONFIG']) as cursor:
-			sql = provider.get('user.sql', login=login, password=password)
-			cursor.execute(sql)
-			user = cursor.fetchone()
-			if user:
-				schema = [column[0] for column in cursor.description]
-				user = dict(zip(schema, user))
-				group_name = user['group_name']
-				session['group'] = group_name
-				session.permanent = True
-				return redirect('/')
-		if token is None:
+		sql = provider.get('user.sql', login=login, password=password)
+		user = make_request(current_app.config['DB_CONFIG'], sql)
+		if not user:
 			return render_template('login.html', message='Invalid login or password')
+		user = user[0]
+		group_name = user['group_name']
+		session['group'] = group_name
+		session.permanent = True
+		return redirect('/')
 
 
 @auth_pb.route('/logout')
