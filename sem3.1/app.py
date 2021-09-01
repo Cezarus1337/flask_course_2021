@@ -1,4 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask
+
+from access import AccessManager
+from utils import local_routing
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -14,18 +17,18 @@ app.config['db_config'] = db_config
 
 from blueprints.profile.routes import profile_bp
 
+app.register_blueprint(profile_bp, url_prefix='/profile')
 
+
+@app.route('/')
+@AccessManager.group_reguired
 def index():
-	return render_template('index.html')
+	return local_routing(url_key='url', default_page='index.html')
 
 
+@app.route('/exit')
 def goodbye():
 	return 'Goodbye'
-
-
-app.add_url_rule('/', view_func=index, methods=['GET'])
-app.add_url_rule('/exit', view_func=goodbye, methods=['GET'])
-app.register_blueprint(profile_bp, url_prefix='/profile')
 
 
 if __name__ == '__main__':

@@ -13,19 +13,21 @@ class AccessManager:
 			group = session.get('group', None)
 			if group is not None and group != '':
 				return f(*args, **kwargs)
-			return redirect('/login')
+			return redirect('/auth/login')
 		return wrapper
 
 	@staticmethod
 	def group_required(f):
 		@wraps(f)
 		def wrapper(*args, **kwargs):
-			if 'group' in session:
+			config = current_app.config['ACCESS_CONFIG']
+			if request.args.get('url', '/') in config['public_urls']:
+				return f(*args, **kwargs)
+			elif 'group' in session:
 				group = session['group']
-				config = current_app.config['ACCESS_CONFIG']
 				if group in config:
-					handler = request.endpoint.split('.')[0]
-					if handler in config[group]['blueprints'] or handler in config[group]['endpoints']:
+					path = request.args.get('url', '/')
+					if path in config[group]:
 						return f(*args, **kwargs)
-			return redirect('/login')
+			return redirect('/auth/login')
 		return wrapper

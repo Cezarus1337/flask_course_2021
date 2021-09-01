@@ -1,19 +1,14 @@
 {
-  "typical": {
-    "blueprints": [
-      "auth"
-    ],
-    "endpoints": [
-      "index"
-    ]
-  },
-  "admin": {
-    "blueprints": [
-      "auth"
-    ],
-    "endpoints": [
-      "index",
-      "admin_page"
-    ]
-  }
+  "typical": [
+      "/profile"
+  ],
+  "admin": [
+      "/profile",
+      "/admin"
+  ],
+  "public_urls": [
+    "/",
+    "/auth/login",
+    "/auth/logout"
+  ]
 }
