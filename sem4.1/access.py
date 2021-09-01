@@ -27,7 +27,8 @@ class AccessManager:
 				group = session['group']
 				if group in config:
 					path = request.args.get('url', '/')
-					if path in config[group]:
-						return f(*args, **kwargs)
+					for blueprint in config[group]:
+						if path.startswith(blueprint):
+							return f(*args, **kwargs)
 			return redirect('/auth/login')
 		return wrapper
