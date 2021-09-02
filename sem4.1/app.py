@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -12,7 +12,6 @@ app.config['SECRET_KEY'] = 'super secret key'
 from blueprints.auth.routes import auth_pb
 from blueprints.admin.routes import admin_pb
 from access import AccessManager
-from utils import local_routing
 
 app.register_blueprint(auth_pb, url_prefix='/auth')
 app.register_blueprint(admin_pb, url_prefix='/admin')
@@ -21,7 +20,7 @@ app.register_blueprint(admin_pb, url_prefix='/admin')
 @app.route('/')
 @AccessManager.group_required
 def index():
-	return local_routing(url_key='url', default_page='index.html')
+	return render_template('index.html')
 
 
 if __name__ == '__main__':

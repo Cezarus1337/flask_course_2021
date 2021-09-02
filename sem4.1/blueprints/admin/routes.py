@@ -1,11 +1,9 @@
-from flask import Blueprint
-
-from utils import local_routing
+from flask import Blueprint, render_template
 
 
 admin_pb = Blueprint('admin', __name__, template_folder='templates')
 
 
 @admin_pb.route('/')
-def admin_page():
-	return local_routing(url_key='url', default_page='admin-index.html')
+def admin_index():
+	return render_template('admin-index.html')

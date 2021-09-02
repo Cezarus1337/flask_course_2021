@@ -4,9 +4,8 @@
 <div style="border-style: solid; border-color: green">
     <h1>Меню</h1>
     <div>
-        <div><a href="/?url=/profile">Профиль</a></div>
-        <div><a href="/?url=/profile/find">Поиск профиля</a></div>
-        <div><a href="/?url=/exit">Выход</a></div>
+        <div><a href="{{ url_for('profile.profile_index') }}">Профиль</a></div>
+        <div><a href="{{ url_for('goodbye') }}">Выход</a></div>
     </div>
 </div>
 {% endblock %}
