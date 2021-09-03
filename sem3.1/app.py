@@ -1,7 +1,4 @@
-from flask import Flask
-
-from access import AccessManager
-from utils import local_routing
+from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -21,9 +18,8 @@ app.register_blueprint(profile_bp, url_prefix='/profile')
 
 
 @app.route('/')
-@AccessManager.group_reguired
 def index():
-	return local_routing(url_key='url', default_page='index.html')
+	return render_template('index.html')
 
 
 @app.route('/exit')
