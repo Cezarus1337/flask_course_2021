@@ -1,5 +1,3 @@
-import random
-
 from flask import Flask
 from flask import request, render_template, redirect
 
@@ -56,11 +54,17 @@ def user_page(user_id: int):
     return f"User profile:\nname: {user['name']}\nemail: {user['email']}"
 
 
-@app.route('/random')
+@app.route('/args')
 def page_with_args():
-    lower = int(request.args.get('from', 0))
-    upper = int(request.args.get('to', 1))
-    return str(random.randint(lower, upper))
+    target = request.args.get('target', None)
+    if target is not None:
+        target_urls = {
+            'source1': '/',  # start page
+            'source2': '/db-version'  # stay here
+        }
+        next_url = target_urls.get(target, '/')
+        return redirect(next_url)
+    return render_template('start-page.html')
 
 
 @app.route('/user-form-all', methods=['GET', 'POST'])  # Доп. - получить данные пользователя и вернуть страничку с его профилем
