@@ -28,7 +28,7 @@ class DBConnection:
         return True
 
 
-def make_request(db_config, sql):
+def work_with_db(db_config, sql):
     items = []
     with DBConnection(db_config) as cursor:
         cursor.execute(sql)

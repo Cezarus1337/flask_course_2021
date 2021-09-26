@@ -8,9 +8,9 @@
 <h1>Добро пожаловать</h1>
 <p>Вам доступны функции</p>
 <ul>
-    <li><a href="/?url=/auth/login">Авторизация</a></li>
-    <li><a href="/?url=/admin">Вход в панель администратора</a></li>
-    <li><a href="/?url=/auth/logout">Logout</a></li>
+    <li><a href="{{ url_for('auth.login') }}">Авторизация</a></li>
+    <li><a href="{{ rul_for('admin.admin_index') }}">Вход в панель администратора</a></li>
+    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
 </ul>
 </body>
 </html>

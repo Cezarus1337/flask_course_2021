@@ -7,7 +7,7 @@
 <body>
 <h1>Permission denied</h1>
 <p>Недостаточно прав для просмотра ресурса</p>
-<a href="/">Главная страница</a>
-<a href="/login">Авторизация</a>
+<a href="{{ url_for('index') }}">Главная страница</a>
+<a href="{{ url_for('auth.login') }}">Авторизация</a>
 </body>
 </html>

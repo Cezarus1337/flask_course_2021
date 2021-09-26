@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import request
+from flask import request, render_template
 from flask import session, redirect, current_app
 
 
@@ -13,7 +13,7 @@ class AccessManager:
 			group = session.get('group', None)
 			if group is not None and group != '':
 				return f(*args, **kwargs)
-			return redirect('/auth/login')
+			return render_template('permission.html')
 		return wrapper
 
 	@staticmethod
@@ -30,5 +30,5 @@ class AccessManager:
 					for blueprint in config[group]:
 						if path.startswith(blueprint):
 							return f(*args, **kwargs)
-			return redirect('/auth/login')
+			return render_template('permission.html')
 		return wrapper
