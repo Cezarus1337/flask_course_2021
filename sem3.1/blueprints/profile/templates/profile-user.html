@@ -5,13 +5,26 @@
     <title>Flask Project</title>
 </head>
 <body>
-<h1>Мой профиль</h1>
-<p>Привет, меня зовут {{ name }}. Моя почта example@google.com</p>
+<h1>Меню пользователя</h1>
+<p>Привет, меня зовут {{ name }}</p>
+
+{% if email is not none %}
+<p>Моя почта: {{ email }}</p>
+{% else %}
+<a href="?action=show-email" style="color: blue; text-decoration: none">Показать email</a>
+{% endif %}
+
 <form action="" method="post">
     <label for="user_name">Найти пользователя</label>
     <input type="text" name="user_name">
     <input type="submit" value="Найти">
 </form>
+
+<ul>
+    <li><a href="section1">В секцию 1</a></li>
+    <li><a href="section2">В секцию 2</a></li>
+</ul>
+
 <a href="{{ url_for('index') }}">В меню</a>
 </body>
 </html>

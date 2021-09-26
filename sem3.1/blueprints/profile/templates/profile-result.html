@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Project</title>
+</head>
+<body>
+<h1>Найденный профиль</h1>
+{% if not user %}
+<p>Not found</p>
+{% else %}
+<div>
+    <p>Имя: {{ user[0]['name'] }}</p>
+    <p>Login: {{ user[0]['login'] }}</p>
+</div>
+{% endif %}
+<a href="{{ url_for('index') }}">В меню</a>
+</body>
+</html>
