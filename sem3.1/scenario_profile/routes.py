@@ -13,9 +13,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 @profile_app.route('/', methods=['GET', 'POST'])
 def profile_index():
 	if request.method == 'GET':
-		action = request.args.get('action', None)
-		email = 'example@google.com' if action == 'show-email' else None
-		return render_template('profile-user.html', name='Ivan', email=email)
+		return render_template('profile-user.html', name='Ivan')
 	else:
 		user_name = request.form['user_name']
 		sql = provider.get('user.sql', user_name=user_name)

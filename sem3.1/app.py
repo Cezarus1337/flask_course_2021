@@ -12,7 +12,7 @@ db_config = {
 
 app.config['db_config'] = db_config
 
-from blueprints.profile.routes import profile_app
+from scenario_profile.routes import profile_app
 
 app.register_blueprint(profile_app, url_prefix='/profile')
 
