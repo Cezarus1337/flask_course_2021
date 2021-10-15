@@ -1,18 +1,18 @@
 import os
 
-from flask import Blueprint
-from flask import session
-from flask import render_template, request, current_app, redirect
+from flask import (
+	Blueprint, session, render_template,
+	request, current_app, redirect)
 
 from database.connection import DBConnection, work_with_db
 from database.sql_provider import SQLProvider
 
 
-auth_pb = Blueprint('auth', __name__, template_folder='templates')
+auth_app = Blueprint('auth', __name__, template_folder='templates')
 provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
-@auth_pb.route('/login', methods=['GET', 'POST'])
+@auth_app.route('/login', methods=['GET', 'POST'])
 def login_page():
 	if request.method == 'GET':
 		return render_template('login.html')
@@ -30,7 +30,7 @@ def login_page():
 		return redirect('/')
 
 
-@auth_pb.route('/logout')
+@auth_app.route('/logout')
 def logout():
 	session.clear()
 	return redirect('/')

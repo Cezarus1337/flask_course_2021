@@ -1,14 +1,17 @@
 {
   "typical": [
-      "/profile"
+      "",
+      "auth",
+      "query"
   ],
   "admin": [
-      "/profile",
-      "/admin"
+      "",
+      "auth",
+      "query",
+      "admin"
   ],
-  "public_urls": [
-    "/",
-    "/auth/login",
-    "/auth/logout"
+  "unauthorized": [
+    "",
+    "auth"
   ]
 }
