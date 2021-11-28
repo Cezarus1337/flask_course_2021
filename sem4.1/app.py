@@ -9,12 +9,14 @@ app.config['ACCESS_CONFIG'] = json.load(open('configs/access.json'))
 app.config['SECRET_KEY'] = 'super secret key'
 
 
-from blueprints.auth.routes import auth_pb
-from blueprints.admin.routes import admin_pb
+from blueprints.auth.routes import auth_app
+from blueprints.admin.routes import admin_app
+from blueprints.query.routes import query_app
 from access import AccessManager
 
-app.register_blueprint(auth_pb, url_prefix='/auth')
-app.register_blueprint(admin_pb, url_prefix='/admin')
+app.register_blueprint(auth_app, url_prefix='/auth')
+app.register_blueprint(admin_app, url_prefix='/admin')
+app.register_blueprint(query_app, url_prefix='/query')
 
 
 @app.route('/')

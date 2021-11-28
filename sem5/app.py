@@ -1,32 +1,19 @@
-import yaml
+import json
 
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-app.config['DB_CONFIG'] = yaml.safe_load(open('configs/db.yaml'))
-app.config['ACCESS_CONFIG'] = yaml.safe_load(open('configs/access.yaml'))
+app.config['DB_CONFIG'] = json.load(open('configs/db.json'))
+app.config['ACCESS_CONFIG'] = json.load(open('configs/access.json'))
 app.config['SECRET_KEY'] = 'super secret key'
 
 
-from blueprints.auth.routes import auth_pb
-from blueprints.basket.routes import basket_pb
-from utils import AccessManager
+from blueprints.auth.routes import auth_app
+from blueprints.basket.routes import basket_app
 
-app.register_blueprint(auth_pb, url_prefix='/')
-app.register_blueprint(basket_pb, url_prefix='/order')
-
-
-@app.route('/user')
-@AccessManager.login_required
-def profile_page():
-	return 'Profile page'
-
-
-@app.route('/admin')
-@AccessManager.group_required
-def admin_page():
-	return 'Admin page'
+app.register_blueprint(auth_app, url_prefix='/')
+app.register_blueprint(basket_app, url_prefix='/order')
 
 
 @app.route('/')

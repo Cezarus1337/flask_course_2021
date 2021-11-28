@@ -2,12 +2,14 @@
   "typical": [
       "",
       "auth",
-      "query"
+      "query",
+      "basket"
   ],
   "admin": [
       "",
       "auth",
       "query",
+      "basket",
       "admin"
   ],
   "unauthorized": [
